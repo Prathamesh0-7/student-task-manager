@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PATH+DOCKER = 'C:\\Users\\Prathamesh\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin'
+        DOCKER_CLI = 'C:\\Users\\Prathamesh\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe'
     }
 
     stages {
@@ -26,14 +26,14 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker.exe build -t student-task-manager:latest .'
+                bat '"%DOCKER_CLI%" build -t student-task-manager:latest .'
             }
         }
 
         stage('Deploy') {
             steps {
-                bat 'docker.exe rm -f student-task-manager 2>nul || exit /b 0'
-                bat 'docker.exe run -d --name student-task-manager -p 5000:5000 student-task-manager:latest'
+                bat '"%DOCKER_CLI%" rm -f student-task-manager 2>nul || exit /b 0'
+                bat '"%DOCKER_CLI%" run -d --name student-task-manager -p 5000:5000 student-task-manager:latest'
             }
         }
 
